@@ -4,6 +4,8 @@ import br.com.william.ower.dtos.OwnerDto;
 import br.com.william.ower.service.OwnerService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,7 +26,8 @@ public class OwnerController {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response registerController(OwnerDto ownerDto) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response registerController(@Valid OwnerDto ownerDto) {
         var uuid = ownerService.saveOwner(ownerDto);
 
         return Response.created(
