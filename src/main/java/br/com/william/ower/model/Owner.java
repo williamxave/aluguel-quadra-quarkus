@@ -45,6 +45,14 @@ public class Owner extends PanacheEntityBase {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public UUID getExternalId() {
         return externalId;
     }
