@@ -1,8 +1,6 @@
 package br.com.william.ower.controller;
 
 import br.com.william.ower.dtos.OwnerDto;
-import br.com.william.ower.model.Owner;
-import br.com.william.ower.repository.OwnerRepository;
 import br.com.william.ower.service.OwnerService;
 
 import javax.inject.Inject;
