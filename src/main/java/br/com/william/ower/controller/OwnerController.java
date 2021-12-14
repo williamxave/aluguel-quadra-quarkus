@@ -41,4 +41,18 @@ public class OwnerController {
        var ownerResponse = ownerService.findOwnerResponse(UUID.fromString(externalId));
         return Response.ok(ownerResponse).build();
     }
+
+    @DELETE
+    @Path("/{externalId}")
+    public Response deleteOwner(@PathParam("externalId") String externalId){
+        ownerService.deleteOwner(UUID.fromString(externalId));
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/{externalId}")
+    public Response updateOwner(@PathParam("externalId") String externalId, @Valid OwnerDto ownerDto){
+        ownerService.updateOwner(UUID.fromString(externalId), ownerDto);
+        return Response.ok().build();
+    }
 }

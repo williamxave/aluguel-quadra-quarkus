@@ -29,16 +29,31 @@ public class OwnerService {
         return String.valueOf(owner.getExternalId());
     }
 
-    @Transactional
     public OwnerResponse findOwnerResponse(UUID externalId) {
         var possibleOwner =
                 findOwner(externalId).map(owner -> new OwnerResponse(owner)).get();
         return possibleOwner;
     }
 
-    public Optional<Owner> findOwner(UUID externalId){
-       return  Optional.ofNullable((Owner) Owner.find("externalId", externalId)
-               .firstResultOptional()
-               .orElseThrow(() -> new IllegalArgumentException("Owner not found")));
+    @Transactional
+    public void deleteOwner(UUID externalId) {
+        var owner = findOwner(externalId).get();
+        Owner.deleteById(owner.getId());
     }
+
+    @Transactional
+    public void updateOwner(UUID externalId, OwnerDto ownerDto) {
+        var owner = findOwner(externalId).get();
+        owner.setName(ownerDto.getName());
+        owner.setEmail(ownerDto.getEmail());
+        owner.setPassword(ownerDto.getPassword());
+        owner.persist();
+    }
+
+    public Optional<Owner> findOwner(UUID externalId) {
+        return Optional.ofNullable((Owner) Owner.find("externalId", externalId)
+                .firstResultOptional()
+                .orElseThrow(() -> new IllegalArgumentException("Owner not found")));
+    }
+
 }

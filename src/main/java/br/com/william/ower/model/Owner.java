@@ -56,6 +56,10 @@ public class Owner extends PanacheEntityBase {
     public UUID getExternalId() {
         return externalId;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
 
 
