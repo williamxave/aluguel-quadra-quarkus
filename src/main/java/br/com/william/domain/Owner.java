@@ -1,4 +1,4 @@
-package br.com.william.ower.model;
+package br.com.william.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
-public class Owner extends PanacheEntityBase {
+public class Owner{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,14 @@ public class Owner extends PanacheEntityBase {
 
     @Deprecated
     public Owner() {
+    }
+
+    public Owner(String name,
+                 String email,
+                 String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public void setName(String name) {

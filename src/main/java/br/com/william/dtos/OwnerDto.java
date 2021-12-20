@@ -1,4 +1,4 @@
-package br.com.william.ower.dtos;
+package br.com.william.dtos;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +19,13 @@ public class OwnerDto {
     public OwnerDto() {
     }
 
+    public OwnerDto(String name,
+                    String email,
+                    String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public String getName() {
         return name;

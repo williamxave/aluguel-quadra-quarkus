@@ -1,6 +1,6 @@
-package br.com.william.ower.repository;
+package br.com.william.repositories;
 
-import br.com.william.ower.model.Owner;
+import br.com.william.domain.Owner;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;

@@ -1,6 +1,6 @@
-package br.com.william.ower.dtos;
+package br.com.william.dtos;
 
-import br.com.william.ower.model.Owner;
+import br.com.william.domain.Owner;
 
 public class OwnerResponse {
     private String name;
