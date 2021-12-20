@@ -1,5 +1,9 @@
 package br.com.william.dtos;
 
+import br.com.william.anootations.Password;
+import br.com.william.anootations.UniqueValue;
+import br.com.william.domain.Owner;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -10,9 +14,11 @@ public class OwnerDto {
 
     @NotBlank
     @Email
+    @UniqueValue(fieldName = "email", domainClass = Owner.class)
     private String email;
 
     @NotBlank
+    @Password(fieldName = "password", domainClass = Owner.class)
     private String password;
 
     @Deprecated

@@ -1,6 +1,6 @@
 package br.com.william.services;
 
-import br.com.william.Validate;
+import br.com.william.utils.Validate;
 import br.com.william.handlers.BadRequestExceptionCustom;
 import br.com.william.dtos.OwnerDto;
 import br.com.william.dtos.OwnerResponse;

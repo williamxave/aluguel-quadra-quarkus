@@ -1,6 +1,6 @@
 package br.com.william.domain;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import br.com.william.anootations.UniqueValue;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
