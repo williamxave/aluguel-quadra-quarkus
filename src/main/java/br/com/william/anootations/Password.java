@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public @interface Password {
 
     String message() default "Sua senha deve ter pelo menos 8 caracteres. " +
-            " 1 Letra maiúsula, 1 Letra minúsula, númerps e pelo menos 1 caracter especial";
+            " 1 Letra maiúsula, 1 Letra minúsula, números e pelo menos 1 caracter especial";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

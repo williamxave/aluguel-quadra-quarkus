@@ -2,10 +2,7 @@ package br.com.william.domain;
 
 import br.com.william.anootations.UniqueValue;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
@@ -24,6 +21,7 @@ public class Owner{
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
