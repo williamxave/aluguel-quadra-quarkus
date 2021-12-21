@@ -1,6 +1,6 @@
 package br.com.william.controllers;
 
-import br.com.william.domain.Owner;
+import br.com.william.domain.owner.Owner;
 import br.com.william.repositories.OwnerRepository;
 import io.quarkus.test.junit.QuarkusTest;
 import org.hamcrest.CoreMatchers;

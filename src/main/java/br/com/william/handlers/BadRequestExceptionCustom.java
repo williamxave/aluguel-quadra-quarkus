@@ -1,6 +1,6 @@
 package br.com.william.handlers;
 
-import br.com.william.dtos.OwnerDto;
+import br.com.william.domain.owner.dtos.OwnerDto;
 
 import javax.validation.ConstraintViolation;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package br.com.william.anootations;
+package br.com.william.anotations;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;

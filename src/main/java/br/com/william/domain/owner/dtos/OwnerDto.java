@@ -1,8 +1,8 @@
-package br.com.william.dtos;
+package br.com.william.domain.owner.dtos;
 
-import br.com.william.anootations.Password;
-import br.com.william.anootations.UniqueValue;
-import br.com.william.domain.Owner;
+import br.com.william.anotations.Password;
+import br.com.william.anotations.UniqueValue;
+import br.com.william.domain.owner.Owner;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

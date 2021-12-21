@@ -2,9 +2,9 @@ package br.com.william.services;
 
 import br.com.william.utils.Validate;
 import br.com.william.handlers.BadRequestExceptionCustom;
-import br.com.william.dtos.OwnerDto;
-import br.com.william.dtos.OwnerResponse;
-import br.com.william.domain.Owner;
+import br.com.william.domain.owner.dtos.OwnerDto;
+import br.com.william.domain.owner.dtos.OwnerResponse;
+import br.com.william.domain.owner.Owner;
 import br.com.william.handlers.NotFoundException;
 import br.com.william.repositories.OwnerRepository;
 import br.com.william.utils.mappers.OwnerMapper;

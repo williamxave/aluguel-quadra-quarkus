@@ -1,6 +1,4 @@
-package br.com.william.domain;
-
-import br.com.william.anootations.UniqueValue;
+package br.com.william.domain.owner;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

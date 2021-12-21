@@ -1,5 +1,6 @@
 package br.com.william.handlers;
 
+import br.com.william.handlers.utils.ErrorsCaught;
 import br.com.william.handlers.utils.StandardError;
 
 import javax.ws.rs.core.Response;
@@ -11,8 +12,9 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
     @Override
     public Response toResponse(NotFoundException e) {
         var error =
-                new StandardError(Response.Status.NOT_FOUND.getStatusCode(),
+                new ErrorsCaught(Response.Status.NOT_FOUND.getStatusCode(),
                         "Object not found", System.currentTimeMillis());
+        error.addErros("", e.getMessage());
         return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(error).build();
     }
 }
