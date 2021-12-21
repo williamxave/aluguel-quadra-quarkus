@@ -1,12 +1,10 @@
 package br.com.william.controllers;
 
 import br.com.william.dtos.OwnerDto;
-
 import br.com.william.handlers.BadRequestExceptionCustom;
 import br.com.william.services.OwnerService;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

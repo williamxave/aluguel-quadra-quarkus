@@ -12,7 +12,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
     public Response toResponse(NotFoundException e) {
         var error =
                 new StandardError(Response.Status.NOT_FOUND.getStatusCode(),
-                        "Object not Found", System.currentTimeMillis());
+                        "Object not found", System.currentTimeMillis());
         return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(error).build();
     }
 }
