@@ -30,5 +30,4 @@ public class HourResponse {
     public Boolean getChecKRent() {
         return checKRent;
     }
-
 }

@@ -16,7 +16,7 @@ public enum PossibleHour {
     public static List<Hour> timeGenerator() {
         List<Hour> hours = new ArrayList<>();
         Arrays.stream(PossibleHour.values())
-                .map( x -> new Hour(false, x))
+                .map( x -> new Hour(true, x))
                 .forEach( hour -> hours.add(hour));
         return hours;
     }

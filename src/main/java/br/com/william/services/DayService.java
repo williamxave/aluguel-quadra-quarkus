@@ -7,17 +7,17 @@ import br.com.william.handlers.BusinessException;
 import br.com.william.handlers.NotFoundException;
 import br.com.william.repositories.DayRepository;
 import br.com.william.repositories.HourRepository;
-import org.hibernate.validator.constraints.Range;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.BadRequestException;
 import java.util.Optional;
-import java.util.UUID;
 
 @ApplicationScoped
 public class DayService {
+    private Logger log = LoggerFactory.getLogger(DayService.class);
 
     DayRepository dayRepository;
     HourRepository hourRepository;
@@ -29,25 +29,21 @@ public class DayService {
         this.hourRepository = hourRepository;
     }
 
-    @Transactional
-    public Optional<Day> finday(String date) {
-        return dayRepository.findDay(date);
+    public DayResponse findDayResponse(String date) {
+            var possibleDay = dayRepository.findDay(date);
+            checkRentHour(possibleDay.get());
+            return possibleDay
+                    .map(day -> new DayResponse(day)).get();
     }
 
-    public DayResponse findDayResponse(Optional<Day> possibleDay) {
-        checkRentHour(possibleDay.get());
-        return possibleDay
-                .map( day -> new DayResponse(day)).get();
-    }
-
-    public void checkRentHour(Day day){
-        if(day.checkRentHour()){
+    public void checkRentHour(Day day) {
+        if (day.checkRentHour()) {
             throw new NotFoundException("All hours already rented");
         }
     }
 
     @Transactional
-    public DayResponse createDayToReponse(String date) {
+    public Day createDayToReponse(String date) {
         var day = new Day(date);
         var time =
                 PossibleHour.timeGenerator();
@@ -57,27 +53,39 @@ public class DayService {
 
         dayRepository.persist(day);
         hourRepository.persist(time);
-        return new DayResponse(day);
+
+        log.info("Created day successful {}", day.getDay());
+        return day;
     }
 
     @Transactional
     public void updateDay(String externalId) {
         var possibleDay =
-                hourRepository.find("externalId", UUID.fromString(externalId))
-                .singleResultOptional()
-                .orElseThrow(() ->
-                        new NotFoundException("Day not found"));
-
-        if( possibleDay.getChecKRent() ){
+                hourRepository.findHourByExternalId(externalId).get();
+        if (possibleDay.getChecKRent()) {
             throw new BusinessException("Already rented time");
         }
         possibleDay.updateRentHour();
+
+        log.info("Rented hour successful Day: {}, rent: {}",
+                possibleDay.getExternalId(), possibleDay.getChecKRent());
+
         hourRepository.persist(possibleDay);
     }
 
-    public void validate(String date) {
-        if(date == null){
+    public DayResponse validate(String date) {
+        if (date == null) {
             throw new BusinessException("Enter a valid date");
         }
+        if (findDayNonException(date).isPresent()) {
+            throw new BusinessException("There is already an equal date registered");
+        }
+        var day = createDayToReponse(date);
+        return new DayResponse(day);
+    }
+
+    @Transactional
+    public Optional<Day> findDayNonException(String date) {
+        return dayRepository.findDayNonException(date);
     }
 }
