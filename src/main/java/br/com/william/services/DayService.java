@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,7 +77,7 @@ public class DayService {
 
     public void validate(String date) {
         if(date == null){
-            System.out.println("Teste");
+            throw new BusinessException("Enter a valid date");
         }
     }
 }

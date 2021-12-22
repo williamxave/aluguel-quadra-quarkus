@@ -20,7 +20,8 @@ public class DayController {
 
     @GET
     public Response findDay(@QueryParam("day") String date){
-        dayService.validate(date);
+            dayService.validate(date);
+
         var possibleDay = dayService.finday(date);
 
         if(possibleDay.isPresent()){
