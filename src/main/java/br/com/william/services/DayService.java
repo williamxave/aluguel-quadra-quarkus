@@ -3,6 +3,7 @@ package br.com.william.services;
 import br.com.william.domain.day.Day;
 import br.com.william.domain.day.dtos.DayResponse;
 import br.com.william.enums.PossibleHour;
+import br.com.william.handlers.BusinessException;
 import br.com.william.handlers.NotFoundException;
 import br.com.william.repositories.DayRepository;
 import br.com.william.repositories.HourRepository;
@@ -37,6 +38,7 @@ public class DayService {
         return possibleDay
                 .map( day -> new DayResponse(day)).get();
     }
+
     public void checkRentHour(Day day){
         if(day.checkRentHour()){
             throw new NotFoundException("All hours already rented");
@@ -63,10 +65,18 @@ public class DayService {
                 hourRepository.find("externalId", UUID.fromString(externalId))
                 .singleResultOptional()
                 .orElseThrow(() ->
-                        new NotFoundException("Object not found"));
+                        new NotFoundException("Day not found"));
 
-        if( possibleDay.getChecKRent() ){ }
+        if( possibleDay.getChecKRent() ){
+            throw new BusinessException("Already rented time");
+        }
         possibleDay.updateRentHour();
         hourRepository.persist(possibleDay);
+    }
+
+    public void validate(String date) {
+        if(date == null){
+            System.out.println("Teste");
+        }
     }
 }
