@@ -76,7 +76,7 @@ public class DayService {
     public DayResponse validate(String date) {
         if (date == null) {
             throw new BusinessException("Enter a valid date");
-        }
+    }
         if (findDayNonException(date).isPresent()) {
             throw new BusinessException("There is already an equal date registered");
         }

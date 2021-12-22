@@ -59,7 +59,15 @@ public class DayController {
     @Path("/rent/{externalId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateDay(@PathParam("externalId") String externalId) {
-        dayService.updateDay(externalId);
+        try {
+            dayService.updateDay(externalId);
+        } catch (BusinessException e){
+            log.error("Unable to update time");
+            throw e;
+        } catch (NotFoundException e){
+            log.error("Hour not found hour: {} ", externalId);
+            throw e;
+        }
         return Response.noContent().build();
     }
 }
