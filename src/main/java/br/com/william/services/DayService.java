@@ -30,10 +30,10 @@ public class DayService {
     }
 
     public DayResponse findDayResponse(String date) {
-            var possibleDay = dayRepository.findDay(date);
-            checkRentHour(possibleDay.get());
-            return possibleDay
-                    .map(day -> new DayResponse(day)).get();
+        var possibleDay = dayRepository.findDay(date);
+        checkRentHour(possibleDay.get());
+        return possibleDay
+                .map(day -> new DayResponse(day)).get();
     }
 
     public void checkRentHour(Day day) {
@@ -73,10 +73,10 @@ public class DayService {
         hourRepository.persist(possibleDay);
     }
 
-    public DayResponse validate(String date) {
+    public DayResponse validate(String date) throws BusinessException {
         if (date == null) {
             throw new BusinessException("Enter a valid date");
-    }
+        }
         if (findDayNonException(date).isPresent()) {
             throw new BusinessException("There is already an equal date registered");
         }

@@ -1,7 +1,5 @@
 package br.com.william.controllers;
 
-import br.com.william.anotations.UniqueValue;
-import br.com.william.domain.day.Day;
 import br.com.william.domain.day.dtos.DayResponse;
 import br.com.william.handlers.BusinessException;
 import br.com.william.handlers.NotFoundException;
@@ -17,7 +15,7 @@ import javax.ws.rs.core.UriBuilder;
 
 @Path("/api/v1/day")
 public class DayController {
-    private  Logger log = LoggerFactory.getLogger(DayController.class);
+    private Logger log = LoggerFactory.getLogger(DayController.class);
 
     DayService dayService;
 
@@ -31,9 +29,9 @@ public class DayController {
     public Response findDay(@QueryParam("day") String date) {
         DayResponse dayResponse;
         try {
-           dayResponse =
+            dayResponse =
                     dayService.findDayResponse(date);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             log.error("Error in fetch day {}", date);
             throw e;
         }
@@ -41,7 +39,8 @@ public class DayController {
     }
 
     @POST
-    public Response createDay(@QueryParam("day")  String date) {
+    @Path("/register")
+    public Response createDay(@QueryParam("day") String date) {
         try {
             var day = dayService.validate(date);
             return Response.created(
@@ -49,7 +48,7 @@ public class DayController {
                             .path(day.getExternalId().toString())
                             .build())
                     .build();
-        } catch (BusinessException e){
+        } catch (BusinessException e) {
             log.error("Error creating a day {}", date);
             throw e;
         }
@@ -61,10 +60,10 @@ public class DayController {
     public Response updateDay(@PathParam("externalId") String externalId) {
         try {
             dayService.updateDay(externalId);
-        } catch (BusinessException e){
+        } catch (BusinessException e) {
             log.error("Unable to update time");
             throw e;
-        } catch (NotFoundException e){
+        } catch (NotFoundException e) {
             log.error("Hour not found hour: {} ", externalId);
             throw e;
         }
