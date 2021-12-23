@@ -1,10 +1,13 @@
 package br.com.william.domain.owner;
 
+import br.com.william.domain.hour.Hour;
 import io.quarkus.elytron.security.common.BcryptUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +29,9 @@ public class Owner{
 
     @NotBlank
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    Set<Hour> hours = new HashSet<>();
 
     @Deprecated
     public Owner() {
@@ -65,6 +71,14 @@ public class Owner{
 
     public Long getId() {
         return id;
+    }
+
+    public Set<Hour> getHours() {
+        return hours;
+    }
+
+    public void addHours(Hour hour){
+        this.hours.add(hour);
     }
 }
 

@@ -3,7 +3,6 @@ package br.com.william.domain.owner.dtos;
 import br.com.william.anotations.Password;
 import br.com.william.anotations.UniqueValue;
 import br.com.william.domain.owner.Owner;
-import io.quarkus.elytron.security.common.BcryptUtil;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

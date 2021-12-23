@@ -55,11 +55,12 @@ public class DayController {
     }
 
     @PATCH
-    @Path("/rent/{externalId}")
+    @Path("/rent/{externalId}/{externalIdOwner}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateDay(@PathParam("externalId") String externalId) {
+    public Response updateDay(@PathParam("externalId") String externalId,
+                              @PathParam("externalIdOwner") String externalIdOwner) {
         try {
-            dayService.updateDay(externalId);
+            dayService.updateDay(externalId, externalIdOwner);
         } catch (BusinessException e) {
             log.error("Unable to update time");
             throw e;

@@ -16,11 +16,11 @@ public class DayResponse {
     private List<HourResponse> hours;
 
     public DayResponse(Day day) {
-        this.externalId = day.getExternalId();
-        this.day = day.getDay();
-        this.hours =
-               day.getHours().stream().filter(s ->
-                       !s.getChecKRent()).map( hour ->
+            this.externalId = day.getExternalId();
+            this.day = day.getDay();
+            this.hours =
+                    day.getHours().stream().filter(s ->
+                            !s.getChecKRent()).map( hour ->
                             new HourResponse(hour)).collect(Collectors.toList());
     }
 

@@ -7,6 +7,7 @@ import br.com.william.handlers.BusinessException;
 import br.com.william.handlers.NotFoundException;
 import br.com.william.repositories.DayRepository;
 import br.com.william.repositories.HourRepository;
+import br.com.william.repositories.OwnerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class DayService {
@@ -21,12 +23,15 @@ public class DayService {
 
     DayRepository dayRepository;
     HourRepository hourRepository;
+    OwnerRepository ownerRepository;
 
     @Inject
     public DayService(DayRepository dayRepository,
-                      HourRepository hourRepository) {
+                      HourRepository hourRepository,
+                      OwnerRepository ownerRepository) {
         this.dayRepository = dayRepository;
         this.hourRepository = hourRepository;
+        this.ownerRepository = ownerRepository;
     }
 
     public DayResponse findDayResponse(String date) {
@@ -59,18 +64,25 @@ public class DayService {
     }
 
     @Transactional
-    public void updateDay(String externalId) {
+    public void updateDay(String externalId, String externalIdOwner) {
         var possibleDay =
                 hourRepository.findHourByExternalId(externalId).get();
         if (possibleDay.getChecKRent()) {
             throw new BusinessException("Already rented time");
         }
+
         possibleDay.updateRentHour();
 
-        log.info("Rented hour successful Day: {}, rent: {}",
-                possibleDay.getExternalId(), possibleDay.getChecKRent());
+        var owner =
+                ownerRepository.findOwnerByExternalId(UUID.fromString(externalIdOwner));
 
+        owner.get().addHours(possibleDay);
+
+        ownerRepository.persist(owner.get());
         hourRepository.persist(possibleDay);
+
+        log.info("Rented hour successful Day: {}, Owner: {}",
+                possibleDay.getExternalId(), owner.get().getEmail());
     }
 
     public DayResponse validate(String date) throws BusinessException {

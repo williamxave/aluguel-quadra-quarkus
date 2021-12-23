@@ -60,11 +60,8 @@ public class OwnerService implements Validate<OwnerDto>{
         ownerRepository.persist(owner);
     }
 
-    public Optional<Owner> findOwner(UUID externalId) {
-        return Optional.ofNullable(ownerRepository
-                .find("externalId", externalId)
-                .firstResultOptional()
-                .orElseThrow(() -> new NotFoundException("Owner not found")));
+    private Optional<Owner> findOwner(UUID externalId) {
+        return ownerRepository.findOwnerByExternalId(externalId);
     }
 
     @Override
