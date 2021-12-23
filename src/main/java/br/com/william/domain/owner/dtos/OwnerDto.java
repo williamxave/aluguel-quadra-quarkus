@@ -31,7 +31,7 @@ public class OwnerDto {
                     String password) {
         this.name = name;
         this.email = email;
-        this.password = BcryptUtil.bcryptHash(password);
+        this.password = password;
     }
 
     public String getName() {
