@@ -50,4 +50,5 @@ public class Day {
     public void addHours(List<Hour> hours){
         this.hours.addAll(hours);
     }
+
 }

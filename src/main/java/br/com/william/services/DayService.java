@@ -41,14 +41,14 @@ public class DayService {
                 .map(day -> new DayResponse(day)).get();
     }
 
-    public void checkRentHour(Day day) {
+    private void checkRentHour(Day day) {
         if (day.checkRentHour()) {
             throw new NotFoundException("All hours already rented");
         }
     }
 
     @Transactional
-    public Day createDayToReponse(String date) {
+    private Day createDayToReponse(String date) {
         var day = new Day(date);
         var time =
                 PossibleHour.timeGenerator();
@@ -78,15 +78,16 @@ public class DayService {
 
         owner.get().addHours(possibleDay);
 
-        ownerRepository.persist(owner.get());
         hourRepository.persist(possibleDay);
+        ownerRepository.persist(owner.get());
 
         log.info("Rented hour successful Day: {}, Owner: {}",
                 possibleDay.getExternalId(), owner.get().getEmail());
     }
 
+    @Transactional
     public DayResponse validate(String date) throws BusinessException {
-        if (date == null) {
+        if (date == null || date.isEmpty()) {
             throw new BusinessException("Enter a valid date");
         }
         if (findDayNonException(date).isPresent()) {

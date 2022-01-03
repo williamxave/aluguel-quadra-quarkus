@@ -81,5 +81,3 @@ public class Owner{
         this.hours.add(hour);
     }
 }
-
-

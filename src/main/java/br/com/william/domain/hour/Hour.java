@@ -2,8 +2,10 @@ package br.com.william.domain.hour;
 
 import br.com.william.domain.day.Day;
 import br.com.william.enums.PossibleHour;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +19,9 @@ public class Hour {
 
     private Boolean checKRent;
 
-    @ManyToOne
+    private LocalDateTime rented;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "day_id")
     private Day day;
 
@@ -43,6 +47,7 @@ public class Hour {
 
     public void updateRentHour(){
         this.checKRent = true;
+        this.rented = LocalDateTime.now();
     }
 
     public UUID getExternalId() {
@@ -52,5 +57,8 @@ public class Hour {
     public void setDay(Day day) {
         this.day = day;
     }
-}
 
+    public LocalDateTime getRented() {
+        return rented;
+    }
+}

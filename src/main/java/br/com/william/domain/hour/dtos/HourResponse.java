@@ -3,6 +3,7 @@ package br.com.william.domain.hour.dtos;
 import br.com.william.domain.hour.Hour;
 import br.com.william.enums.PossibleHour;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class HourResponse {
@@ -13,10 +14,13 @@ public class HourResponse {
 
     private PossibleHour possibleHour;
 
+    private LocalDateTime rented;
+
     public HourResponse(Hour hour) {
         this.checKRent = hour.getChecKRent();
         this.possibleHour = hour.getPossibleHour();
         this.externalId = hour.getExternalId();
+        this.rented = hour.getRented();
     }
 
     public UUID getExternalId() {
@@ -29,5 +33,9 @@ public class HourResponse {
 
     public Boolean getChecKRent() {
         return checKRent;
+    }
+
+    public LocalDateTime getRented() {
+        return rented;
     }
 }
