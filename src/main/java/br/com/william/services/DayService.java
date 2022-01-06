@@ -48,7 +48,9 @@ public class DayService {
     }
 
     @Transactional
-    private Day createDayToReponse(String date) {
+    public DayResponse createDayToReponse(String date) {
+        validate(date);
+
         var day = new Day(date);
         var time =
                 PossibleHour.timeGenerator();
@@ -60,7 +62,7 @@ public class DayService {
         hourRepository.persist(time);
 
         log.info("Created day successful {}", day.getDay());
-        return day;
+        return new DayResponse(day);
     }
 
     @Transactional
@@ -86,19 +88,17 @@ public class DayService {
     }
 
     @Transactional
-    public DayResponse validate(String date) throws BusinessException {
+    private void validate(String date) throws BusinessException {
         if (date == null || date.isEmpty()) {
             throw new BusinessException("Enter a valid date");
         }
         if (findDayNonException(date).isPresent()) {
             throw new BusinessException("There is already an equal date registered");
         }
-        var day = createDayToReponse(date);
-        return new DayResponse(day);
     }
 
     @Transactional
-    public Optional<Day> findDayNonException(String date) {
+    private Optional<Day> findDayNonException(String date) {
         return dayRepository.findDayNonException(date);
     }
 }

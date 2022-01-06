@@ -42,7 +42,7 @@ public class DayController {
     @Path("/register")
     public Response createDay(@QueryParam("day") String date) {
         try {
-            var day = dayService.validate(date);
+            var day = dayService.createDayToReponse(date);
             return Response.created(
                     UriBuilder.fromResource(DayController.class)
                             .path(day.getExternalId().toString())
