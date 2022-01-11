@@ -8,21 +8,21 @@ import br.com.william.repositories.OwnerRepository;
 import br.com.william.utils.PasswordEncrypt;
 import br.com.william.utils.Validate;
 import br.com.william.utils.mappers.OwnerMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 @ApplicationScoped
 public class OwnerService implements Validate<OwnerDto> {
+    private final Logger log = LoggerFactory.getLogger(OwnerService.class);
 
     OwnerMapper ownerMapper;
     OwnerRepository ownerRepository;
@@ -71,13 +71,18 @@ public class OwnerService implements Validate<OwnerDto> {
     public void login(OwnerDto ownerDto) {
         var owner =
                 ownerRepository.findOwnerByEmail(ownerDto.getEmail()).get();
-        verifyPassword(owner, ownerDto);
+        try {
+            verifyPassword(owner, ownerDto);
+        }catch (IllegalArgumentException e){
+            log.error("Invalid password owner: {} ", owner.getExternalId());
+            throw e;
+        }
     }
 
     @Transactional
     private void verifyPassword(Owner owner, OwnerDto ownerDto) {
         if (!owner.getPassword().equals(PasswordEncrypt.encryptPassword(ownerDto.getPassword()))) {
-            throw new IllegalArgumentException("Invalid email or password");.
+            throw new IllegalArgumentException("Invalid email or password");
         }
         owner.setLastLogin();
         ownerRepository.persist(owner);
