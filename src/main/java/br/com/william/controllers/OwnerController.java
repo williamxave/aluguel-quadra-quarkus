@@ -22,16 +22,16 @@ public class OwnerController {
     }
 
     @POST
-    @Path("/register")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerController(OwnerDto ownerDto) throws BadRequestExceptionCustom{
-        ownerService.validate(ownerDto);
-        var uuid = ownerService.saveOwner(ownerDto);
-        return Response.created(
-                UriBuilder.fromResource(OwnerController.class)
-                        .path(uuid)
-                        .build())
-                .build();
+        @Path("/register")
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Response registerController(OwnerDto ownerDto) throws BadRequestExceptionCustom{
+            ownerService.validate(ownerDto);
+            var uuid = ownerService.saveOwner(ownerDto);
+            return Response.created(
+                    UriBuilder.fromResource(OwnerController.class)
+                            .path(uuid)
+                            .build())
+                    .build();
     }
 
     @GET
@@ -54,6 +54,13 @@ public class OwnerController {
     public Response updateOwner(@PathParam("externalId") String externalId, OwnerDto ownerDto) {
         ownerService.validate(ownerDto);
         ownerService.updateOwner(UUID.fromString(externalId), ownerDto);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/login")
+    public Response login (OwnerDto ownerDto){
+        ownerService.login(ownerDto);
         return Response.ok().build();
     }
 }

@@ -1,17 +1,21 @@
 package br.com.william.domain.owner;
 
 import br.com.william.domain.hour.Hour;
-import io.quarkus.elytron.security.common.BcryptUtil;
+import br.com.william.utils.PasswordEncrypt;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Owner{
+public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +36,8 @@ public class Owner{
 
     @OneToMany(cascade = CascadeType.ALL)
     Set<Hour> hours = new HashSet<>();
+
+    private LocalDateTime lastLogin;
 
     @Deprecated
     public Owner() {
@@ -54,7 +60,7 @@ public class Owner{
     }
 
     public void setPassword(String password) {
-        this.password = BcryptUtil.bcryptHash(password);
+        this.password = password;
     }
 
     public String getName() {
@@ -77,7 +83,20 @@ public class Owner{
         return hours;
     }
 
-    public void addHours(Hour hour){
+    public void addHours(Hour hour) {
         this.hours.add(hour);
+    }
+
+    public void setLastLogin() {
+        this.lastLogin = LocalDateTime.now();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String encryptPassword(String password){
+      return this.password =
+                PasswordEncrypt.encryptPassword(password);
     }
 }

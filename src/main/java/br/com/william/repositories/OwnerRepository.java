@@ -16,4 +16,10 @@ public class OwnerRepository implements PanacheRepository<Owner>{
               .firstResultOptional()
               .orElseThrow(() -> new NotFoundException("Owner not found")));
     }
+
+    public Optional<Owner> findOwnerByEmail(String email){
+        return Optional.ofNullable(find("email", email)
+                .firstResultOptional()
+                .orElseThrow(() -> new NotFoundException("Owner not found")));
+    }
 }
